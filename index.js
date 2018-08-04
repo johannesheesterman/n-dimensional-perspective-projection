@@ -59,23 +59,15 @@ function draw(){
     ]);
 
     for(let v of cube) {
-        let rotatedV = rotationY.multiply(v);
-        rotatedV = rotationX.multiply(rotatedV);
-        // Plot the 3d coordinates.
-        dot(rotatedV, 10, "white");
+        dot(v, 5, "white");
     }
 
-    for(let edge of edges){
-        let rotatedVa = rotationY.multiply(cube[edge[0]]);
-        rotatedVa = rotationX.multiply(rotatedVa);
-
-        let rotatedVb = rotationY.multiply(cube[edge[1]]);
-        rotatedVb = rotationX.multiply(rotatedVb);
-
-        line(rotatedVa, rotatedVb, 1, "white");
+    for(let edge of edges){        
+        line(cube[edge[0]], cube[edge[1]], 1, "white");
     }
 
     angle += 0.01
 }
 
 draw();
+

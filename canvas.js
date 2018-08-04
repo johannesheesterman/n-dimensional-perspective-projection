@@ -2,13 +2,22 @@ var canvas;
 var ctx;
 
 // TODO: find better approach.
-var spread = 100;
+var scale = 100;
+
+var speed = 0.1;
 
 // https://en.wikipedia.org/wiki/Projection_(linear_algebra)#Orthogonal_projection
 var orthogonalProjectionMatrix = new matrix([
-    [1 * spread, 0, 0],
-    [0, 1 * spread, 0],
+    [1 * scale, 0, 0],
+    [0, 1 * scale, 0],
     [0, 0, 0]
+]);
+
+var camera = new matrix([
+    [0], [0], [-5]
+]);
+var orientation = new matrix([
+    [0], [0], [0]
 ]);
 
 function createCanvas(width, height){
@@ -31,15 +40,18 @@ function fillCanvas(color){
 function dot(vec3, size, color){
     ctx.fillStyle = color;
 
-    let projectedVec3 = orthogonalProjectionMatrix.multiply(vec3);
+    let projectedVec3 = projectVec3(vec3);
 
     ctx.fillRect(projectedVec3.values[0][0] - (size /2), projectedVec3.values[1][0] - (size /2), size, size);
 }
 
 function line(vec3a, vec3b, size, color){
 
-    let projectedVec3a = orthogonalProjectionMatrix.multiply(vec3a);
-    let projectedVec3b = orthogonalProjectionMatrix.multiply(vec3b);
+    let projectedVec3a = projectVec3(vec3a);
+    let projectedVec3b = projectVec3(vec3b);
+
+    // let projectedVec3a = orthogonalProjectionMatrix.multiply(vec3a);
+    // let projectedVec3b = orthogonalProjectionMatrix.multiply(vec3b);
 
 
     ctx.strokeStyle = color;
@@ -48,3 +60,38 @@ function line(vec3a, vec3b, size, color){
     ctx.lineTo(projectedVec3b.values[0][0], projectedVec3b.values[1][0]);
     ctx.stroke();
 }
+
+function projectVec3(vec3){
+    // apply camera
+    vec3 = vec3.subtract(camera);
+
+    // TODO: apply orientation matrices.    
+
+    let x = (600 / vec3.values[2][0]) * vec3.values[0][0];
+    let y = (600 / vec3.values[2][0]) * vec3.values[1][0];
+
+    return new matrix([
+        [x], [y], [0]
+    ]);
+}
+
+
+window.addEventListener("keydown", function(ev){
+    
+    switch(ev.keyCode){
+        case 87: // W
+            camera.values[2][0] += speed;
+            break;
+        case 68: // D
+            camera.values[0][0] += speed;
+            break;
+        case 83: // S
+            camera.values[2][0] -= speed;
+            break;
+        case 65: // A
+            camera.values[0][0] -= speed;
+            break;
+    }
+
+    console.log(camera);
+});

@@ -17,4 +17,18 @@ class matrix{
         }
         return new matrix(newMatrixValues);
     }
+
+    subtract(m){
+        let newMatrixValues = [];
+
+        for(let row = 0; row < this.values.length; row++){
+            newMatrixValues[row] = [];
+            for(let col = 0; col < this.values[row].length; col++){
+                newMatrixValues[row][col] = 
+                    this.values[row][col] - m.values[row][col];
+            }
+        }
+
+        return new matrix(newMatrixValues);
+    }
 }
