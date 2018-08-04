@@ -1,10 +1,6 @@
 createCanvas(600, 600);
 fillCanvas("black");
 
-// TODO: 
-// add camera
-// read up on https://en.wikipedia.org/wiki/3D_projection#Orthographic_projection
-
 var cube = [
     new matrix([[-1], [1], [1]]), // Front nodes
     new matrix([[1], [1], [1]]),

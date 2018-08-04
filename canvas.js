@@ -1,10 +1,21 @@
+var Configuration = function(){
+    this.speed = 0.1;
+    this.fov = 600;
+};
+
+var configuration = new Configuration();
+
+window.onload = function(){
+    var gui = new dat.GUI();
+    gui.add(configuration, 'speed', 0, 1);
+    gui.add(configuration, 'fov');
+};
+
 var canvas;
 var ctx;
 
 // TODO: find better approach.
 var scale = 100;
-
-var speed = 0.1;
 
 // https://en.wikipedia.org/wiki/Projection_(linear_algebra)#Orthogonal_projection
 var orthogonalProjectionMatrix = new matrix([
@@ -61,14 +72,15 @@ function line(vec3a, vec3b, size, color){
     ctx.stroke();
 }
 
+// https://en.wikipedia.org/wiki/3D_projection
 function projectVec3(vec3){
     // apply camera
     vec3 = vec3.subtract(camera);
 
     // TODO: apply orientation matrices.    
 
-    let x = (600 / vec3.values[2][0]) * vec3.values[0][0];
-    let y = (600 / vec3.values[2][0]) * vec3.values[1][0];
+    let x = (configuration.fov / vec3.values[2][0]) * vec3.values[0][0];
+    let y = (configuration.fov / vec3.values[2][0]) * vec3.values[1][0];
 
     return new matrix([
         [x], [y], [0]
@@ -77,21 +89,18 @@ function projectVec3(vec3){
 
 
 window.addEventListener("keydown", function(ev){
-    
     switch(ev.keyCode){
         case 87: // W
-            camera.values[2][0] += speed;
+            camera.values[2][0] += configuration.speed;
             break;
         case 68: // D
-            camera.values[0][0] += speed;
+            camera.values[0][0] += configuration.speed;
             break;
         case 83: // S
-            camera.values[2][0] -= speed;
+            camera.values[2][0] -= configuration.speed;
             break;
         case 65: // A
-            camera.values[0][0] -= speed;
+            camera.values[0][0] -= configuration.speed;
             break;
     }
-
-    console.log(camera);
 });
