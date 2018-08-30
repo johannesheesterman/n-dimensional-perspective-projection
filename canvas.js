@@ -66,11 +66,32 @@ function line(vec3a, vec3b, size, color){
 
 // https://en.wikipedia.org/wiki/3D_projection
 function projectVec3(vec3){
+
+
+
     // apply camera
     vec3 = vec3.subtractVec(camera);
 
-    // TODO: apply orientation matrices.    
+    // Rotate X
+    vec3 = vec3.mulMatrix([
+        [1, 0, 0],
+        [0, Math.cos(orientation.y), -Math.sin(orientation.y)],
+        [0, Math.sin(orientation.y), Math.cos(orientation.y)]
+    ]);
+    // Rotate Y
+    vec3 = vec3.mulMatrix([
+        [Math.cos(orientation.x), 0, Math.sin(orientation.x)],
+        [0, 1, 0],
+        [-Math.sin(orientation.x), 0, Math.cos(orientation.x)]
+    ]);
+    // Rotate Z
+    vec3 = vec3.mulMatrix([
+        [Math.cos(orientation.z), -Math.sin(orientation.z), 0],
+        [Math.sin(orientation.z), Math.cos(orientation.z), 0],
+        [0, 0, 1]
+    ]);
 
+    
     let x = (configuration.fov / vec3.z) * vec3.x;
     let y = (configuration.fov / vec3.z) * vec3.y;
 
@@ -97,6 +118,9 @@ window.addEventListener("keydown", function(ev){
 
 window.addEventListener("mousemove", function(event) {
     // Normalize mouse position between -1 and 1.
-
-
+    let x = event.x/(window.innerWidth/2) -1;
+    let y = event.y/(window.innerHeight/2) -1;
+    
+    this.orientation.x = -x;
+    this.orientation.y = y;
 });

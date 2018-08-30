@@ -34,25 +34,7 @@ var angle = 0;
 function draw(){
     requestAnimationFrame(draw);
     fillCanvas("black");
-
-    var rotationZ = new matrix([
-        [Math.cos(angle), -Math.sin(angle), 0],
-        [Math.sin(angle), Math.cos(angle), 0],
-        [0, 0, 1]
-    ]);
-
-    var rotationX = new matrix([
-        [1, 0, 0],
-        [0, Math.cos(angle), -Math.sin(angle)],
-        [0, Math.sin(angle), Math.cos(angle)]
-    ]);
-
-    var rotationY = new matrix([
-        [Math.cos(angle), 0, Math.sin(angle)],
-        [0, 1, 0],
-        [-Math.sin(angle), 0, Math.cos(angle)]
-    ]);
-
+    
     for(let v of cube) {
         dot(v, 5, "white");
     }
@@ -61,7 +43,7 @@ function draw(){
         line(cube[edge[0]], cube[edge[1]], 1, "white");
     }
 
-    angle += 0.01
+    //orientation.y += 0.01
 }
 
 draw();

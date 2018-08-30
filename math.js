@@ -90,4 +90,12 @@ class Vec3 {
             this.z - v.z
         );
     }
+
+    mulMatrix(m) {
+        return new Vec3(
+            this.x * m[0][0] + this.y * m[0][1] + this.z * m[0][2],
+            this.x * m[1][0] + this.y * m[1][1] + this.z * m[1][2],
+            this.x * m[2][0] + this.y * m[2][1] + this.z * m[2][2],
+        );
+    }
 }
