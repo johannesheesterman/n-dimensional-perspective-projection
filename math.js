@@ -46,3 +46,48 @@ class matrix{
         return new matrix(newMatrixValues);
     }
 }
+
+class Vec2 {
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+    }
+
+    mulScalar(s){
+        return new Vec2(
+            this.x * s,
+            this.y * s
+        );
+    }
+
+    mulVec(v) {
+        return new Vec2(
+            this.x * v.x,
+            this.y * v.y
+        );
+    }
+}
+
+class Vec3 {
+    constructor(x,y,z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    mulScalar(s){
+        return new Vec3(
+            this.x * s,
+            this.y * s,
+            this.z * s
+        );
+    }
+
+    subtractVec(v){
+        return new Vec3(
+            this.x - v.x,
+            this.y - v.y,
+            this.z - v.z
+        );
+    }
+}

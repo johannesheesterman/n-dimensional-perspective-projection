@@ -1,18 +1,17 @@
-createCanvas(600, 600);
+createCanvas(window.innerWidth, window.innerHeight);
 fillCanvas("black");
 
 var cube = [
-    new matrix([[-1], [1], [1]]), // Front nodes
-    new matrix([[1], [1], [1]]),
-    new matrix([[-1], [-1], [1]]),
-    new matrix([[1], [-1], [1]]),
+    new Vec3(-1, 1, 1), // Front nodes
+    new Vec3(1, 1, 1),
+    new Vec3(-1, -1, 1),
+    new Vec3(1, -1, 1),
 
-    new matrix([[-1], [1], [-1]]), // Back nodes
-    new matrix([[1], [1], [-1]]),
-    new matrix([[-1], [-1], [-1]]),
-    new matrix([[1], [-1], [-1]])
+    new Vec3(-1, 1, -1), // Back nodes
+    new Vec3(1, 1, -1),
+    new Vec3(-1, -1, -1),
+    new Vec3(1, -1, -1)
 ];
-
 var edges = [
     [0,1], // Front edges
     [1,3],

@@ -24,12 +24,8 @@ var orthogonalProjectionMatrix = new matrix([
     [0, 0, 0]
 ]);
 
-var camera = new matrix([
-    [0], [0], [-5]
-]);
-var orientation = new matrix([
-    [0], [0], [0]
-]);
+var camera = new Vec3(0, 0, -5);
+var orientation = new Vec3(0, 0, 0);
 
 function createCanvas(width, height){
     canvas = document.createElement('canvas');
@@ -53,7 +49,7 @@ function dot(vec3, size, color){
 
     let projectedVec3 = projectVec3(vec3);
 
-    ctx.fillRect(projectedVec3.values[0][0] - (size /2), projectedVec3.values[1][0] - (size /2), size, size);
+    ctx.fillRect(projectedVec3.x - (size /2), projectedVec3.y - (size /2), size, size);
 }
 
 function line(vec3a, vec3b, size, color){
@@ -61,46 +57,46 @@ function line(vec3a, vec3b, size, color){
     let projectedVec3a = projectVec3(vec3a);
     let projectedVec3b = projectVec3(vec3b);
 
-    // let projectedVec3a = orthogonalProjectionMatrix.multiply(vec3a);
-    // let projectedVec3b = orthogonalProjectionMatrix.multiply(vec3b);
-
-
     ctx.strokeStyle = color;
     ctx.beginPath();
-    ctx.moveTo(projectedVec3a.values[0][0], projectedVec3a.values[1][0]);
-    ctx.lineTo(projectedVec3b.values[0][0], projectedVec3b.values[1][0]);
+    ctx.moveTo(projectedVec3a.x, projectedVec3a.y);
+    ctx.lineTo(projectedVec3b.x, projectedVec3b.y);
     ctx.stroke();
 }
 
 // https://en.wikipedia.org/wiki/3D_projection
 function projectVec3(vec3){
     // apply camera
-    vec3 = vec3.subtract(camera);
+    vec3 = vec3.subtractVec(camera);
 
     // TODO: apply orientation matrices.    
 
-    let x = (configuration.fov / vec3.values[2][0]) * vec3.values[0][0];
-    let y = (configuration.fov / vec3.values[2][0]) * vec3.values[1][0];
+    let x = (configuration.fov / vec3.z) * vec3.x;
+    let y = (configuration.fov / vec3.z) * vec3.y;
 
-    return new matrix([
-        [x], [y], [0]
-    ]);
+    return new Vec3(x, y, 0);
 }
 
 
 window.addEventListener("keydown", function(ev){
     switch(ev.keyCode){
         case 87: // W
-            camera.values[2][0] += configuration.speed;
+            camera.z += configuration.speed;
             break;
         case 68: // D
-            camera.values[0][0] += configuration.speed;
+            camera.x += configuration.speed;
             break;
         case 83: // S
-            camera.values[2][0] -= configuration.speed;
+            camera.z -= configuration.speed;
             break;
         case 65: // A
-            camera.values[0][0] -= configuration.speed;
+            camera.x -= configuration.speed;
             break;
     }
+});
+
+window.addEventListener("mousemove", function(event) {
+    // Normalize mouse position between -1 and 1.
+
+
 });
